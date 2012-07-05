@@ -14,7 +14,7 @@
 # Allow access from all domains for webfonts.
 # Alternatively you could only whitelist your
 # subdomains like "subdomain.example.com".
-
+ 
 <IfModule mod_headers.c>
   <FilesMatch "\.(ttf|ttc|otf|eot|woff|font.css)$">
     Header set Access-Control-Allow-Origin "*"
@@ -47,16 +47,7 @@ AddType application/x-font-woff        woff
 AddType image/x-icon                        ico
 AddType image/webp                          webp
 AddType text/cache-manifest                 appcache manifest
-AddType text/x-component                    htc
-AddType application/xml                     rss atom xml rdf
-AddType application/x-chrome-extension      crx
-AddType application/x-opera-extension       oex
-AddType application/x-xpinstall             xpi
-AddType application/octet-stream            safariextz
-AddType application/x-web-app-manifest+json webapp
-AddType text/x-vcard                        vcf
 AddType application/x-shockwave-flash       swf
-AddType text/vtt                            vtt
 
 # ----------------------------------------------------------------------
 # Gzip compression
@@ -111,14 +102,6 @@ AddType text/vtt                            vtt
 # Expires headers (for better cache control)
 # ----------------------------------------------------------------------
 
-# These are pretty far-future expires headers.
-# They assume you control versioning with filename-based cache busting
-# Additionally, consider that outdated proxies may miscache
-#   www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/
-
-# If you don't use filenames to version, lower the CSS  and JS to something like
-#   "access plus 1 week" or so.
-
 <IfModule mod_expires.c>
   ExpiresActive on
 
@@ -169,11 +152,12 @@ AddType text/vtt                            vtt
 </IfModule>
 
 # ----------------------------------------------------------------------
-# Prevent mobile network providers from modifying your site
+# 
 # ----------------------------------------------------------------------
 
 <IfModule mod_headers.c>
-  Header set Cache-Control "no-transform"
+  Header set Cache-Control "public"
+  Header set Connection Keep-Alive
 </IfModule>
 
 # ----------------------------------------------------------------------
@@ -191,18 +175,6 @@ AddType text/vtt                            vtt
 FileETag None
 
 # ----------------------------------------------------------------------
-# Set Keep-Alive Header
-# ----------------------------------------------------------------------
-
-# Keep-Alive allows the server to send multiple requests through one TCP-connection.
-# Be aware of possible disadvantages of this setting. Turn on if you serve a lot of
-# static content.
-
-# <IfModule mod_headers.c>
-#   Header set Connection Keep-Alive
-# </IfModule>
-
-# ----------------------------------------------------------------------
 # Start rewrite engine
 # ----------------------------------------------------------------------
 
@@ -218,11 +190,11 @@ FileETag None
 
 # Rewrite "www.example.com -> example.com"
 
-<IfModule mod_rewrite.c>
-  RewriteCond %{HTTPS} !=on
-  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
-  RewriteRule ^ http://%1%{REQUEST_URI} [R=301,L]
-</IfModule>
+#<IfModule mod_rewrite.c>
+  #RewriteCond %{HTTPS} !=on
+  #RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  #RewriteRule ^ http://%1%{REQUEST_URI} [R=301,L]
+#</IfModule>
 
 # ----------------------------------------------------------------------
 # Prevent 404 errors for non-existing redirected folders
@@ -235,7 +207,7 @@ Options -MultiViews
 # ----------------------------------------------------------------------
 
 # Force UTF-8 for a number of file formats
-AddCharset utf-8 .atom .css .js .json .rss .vtt .xml
+AddCharset utf-8 .atom .css .js .json .rss .vtt .xml .html
 
 # ----------------------------------------------------------------------
 # A little more security
