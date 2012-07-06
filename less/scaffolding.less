@@ -12,9 +12,11 @@ body {
   font-size: @baseFontSize;
   line-height: @baseLineHeight;
   color: @textColor;
-  background-color: @bodyBackground;
-}
+  background: @bodyBackground url('../img/bg.png') repeat;
 
+  padding-top: 60px;
+  padding-bottom: 40px; 
+}
 
 // Links
 // -----
@@ -23,12 +25,8 @@ a {
   color: @linkColor;
   text-decoration: none;
 }
-a:hover {
-  color: @linkColorHover;
-  text-decoration: underline;
-}
 
-body {
-  padding-top: 60px;
-  padding-bottom: 40px; 
+a:hover {
+  color: @linkColor;
+  text-decoration: underline;
 }
